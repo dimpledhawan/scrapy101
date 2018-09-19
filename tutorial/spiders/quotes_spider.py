@@ -20,7 +20,7 @@ class QuotesSpider(scrapy.Spider):
                 'tags': quote.css('div.tags a.tag::text').extract(),
             }
 
-            next_page = response.css('il.next a::attr(href)').extract_first()
-            if next_page is not None:
-                next_page = response.urljoin(next_page)
-                yied scrapy.Request(next_page, callback=self.parse)
+            # next_page = response.css('li.next a').extract_first()
+            if a in response.css('li.next a'):
+                # next_page = response.urljoin(next_page)
+                yield response.follow(a, callback=self.parse)
